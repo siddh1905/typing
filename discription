@@ -1,0 +1,12 @@
+Typing speed test in Python
+It's a console based application to calculate user typing speed implemented using Python and curses library.
+
+Installation
+Curses libary installation on Windows pip install windows-curses
+
+Pygame installation pip install pygame
+
+Working
+The typing speed updates as text is typed and with time.
+
+
