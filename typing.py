@@ -1,78 +1,42 @@
-import curses
-import time 
-import sys
-import os
+import time
 
+def calculate_wpm(start_time, end_time, typed_text):
+    time_taken = end_time - start_time  
+    words = typed_text.split()
+    num_words = len(words)
+    wpm = (num_words / time_taken) * 60
+    return round(wpm, 2)
 
+def calculate_accuracy(original, typed):
+    original_words = original.split()
+    typed_words = typed.split()
+    correct = 0
 
-def speed(stdscr):
+    for o, t in zip(original_words, typed_words):
+        if o == t:
+            correct += 1
 
-    text = "The quick brown fox jumps over the lazy dog, is a sentence containing all the letters of the alphabet."
+    accuracy = (correct / len(original_words)) * 100
+    return round(accuracy, 2)
 
-    typed_text = []
-    wpm=0
+def typing_test():
+    sample_text = "The quick brown fox jumps over the lazy dog."
+    print("Typing Speed Test")
+    print("Type the following sentence:\n")
+    print(sample_text)
+    input("\nPress Enter when you are ready...")
+
     start_time = time.time()
-    
-    
-    while True:
-        seconds_passed = max((time.time() - start_time), 1)
-        cpm = int(len(typed_text) / (seconds_passed/60))
-        wpm = round((cpm/5), 2)
+    typed_text = input("\nStart Typing: ")
+    end_time = time.time()
 
-        stdscr.clear()
-        show_speed(stdscr, text, typed_text, cpm, wpm, seconds_passed)
-        stdscr.refresh()
+    wpm = calculate_wpm(start_time, end_time, typed_text)
+    accuracy = calculate_accuracy(sample_text, typed_text)
 
-        if "".join(typed_text) == text:
-            stdscr.nodelay(False)
-            break
-        
-        try:
-            key = stdscr.getkey()
-        except:
-            continue
+    print("\n--- Results ---")
+    print(f"Time Taken: {round(end_time - start_time, 2)} seconds")
+    print(f"Words Per Minute (WPM): {wpm}")
+    print(f"Accuracy: {accuracy}%")
 
-        if ord(key) == 27:
-            break 
-        
-        if len(typed_text) == len(text):
-            break
-
-        if key in ("KEY_BACKSPACE", '\b', '\x7f'):
-            if len(typed_text) > 0:
-                typed_text.pop()
-        elif len(typed_text) < len(text):
-            typed_text.append(key)
-
-def show_speed(stdscr, text, typed_text, cpm, wpm, seconds_passed):
-    stdscr.addstr(text)
-    stdscr.addstr(9, 0, f"Typing Speed in words per minute (wpm): {wpm}")
-    stdscr.addstr(8, 0, f"Typing Speed in characters per minute : {cpm}")
-    stdscr.addstr(7, 0, f"Seconds elapsed : {round(seconds_passed, 2)} seconds") 
-
-    for i, letter in enumerate(typed_text):
-        correct_char = text[i]
-        if letter != correct_char:
-                text_color = curses.color_pair(2)
-        else:
-            text_color = curses.color_pair(1)
-
-
-        stdscr.addstr(0, i, letter, text_color)
-    
-
-
-
-def main(stdscr):
-    curses.init_pair(1, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
-    curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
-    curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_BLACK)
-    
-    while True:
-        speed(stdscr)
-        stdscr.addstr(4, 0, "Finished! Press ESC key to Exit.\nPress any key to continue...")
-        key = stdscr.getkey()
-        if ord(key) == 27:
-            break
-
-curses.wrapper(main)
+if __name__ == "__main__":
+    typing_test()
