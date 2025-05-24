@@ -1,12 +1,62 @@
-Typing speed test in Python
-It's a console based application to calculate user typing speed implemented using Python and curses library.
+The Typing Speed Tester is a console-based Python application designed to test and evaluate a user’s typing performance. The program displays a predefined sentence that the user must type as quickly and accurately as possible. Once the user submits the typed sentence, the program calculates the time taken, the number of words typed, and compares the input with the original sentence to compute:
 
-Installation
-Curses libary installation on Windows pip install windows-curses
+Typing Speed (WPM)
 
-Pygame installation pip install pygame
+Accuracy Percentage
 
-Working
-The typing speed updates as text is typed and with time.
+Time Taken
 
+🛠️ Features:
+Uses standard Python libraries only (no heavy dependencies).
 
+Measures time taken using the time module.
+
+Calculates WPM using the formula:
+
+WPM
+=
+(
+Number of words
+Time in seconds
+)
+×
+60
+WPM=( 
+Time in seconds
+Number of words
+​
+ )×60
+Checks accuracy by comparing user input with the original text word-by-word.
+
+Displays results clearly after the test.
+
+🧰 Technologies Used:
+Python 3
+
+Standard Libraries:
+
+time – to measure typing duration.
+
+👤 How It Works (Steps):
+The program displays a sample sentence for the user to type.
+
+The user presses Enter to start the test.
+
+The user types the sentence and presses Enter when done.
+
+The program calculates:
+
+How many words were typed.
+
+How long it took.
+
+How accurately it was typed.
+
+Results are displayed.
+
+🎯 Use Cases:
+Practice typing and improve speed and accuracy.
+
+Build a foundation for larger GUI-based typing apps.
+
+Demonstrate basic Python programming skills for beginners.
